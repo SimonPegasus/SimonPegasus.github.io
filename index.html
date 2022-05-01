@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Game Of Life</title>
+  </head>
+
+  <body style="background-color:rgb(0, 30, 54);">
+    <center>
+    <canvas></canvas><br><br>
+    <button onclick="run = true;update()">Play</button>
+    <button onclick="run = false">Pause</button>
+    <button onclick="run = false;map = init('clear', 0);display(map);">Clear</button><br><br>
+
+    <button onclick="run = false;map = init('basic', 2);display(map);">Density 50%</button>
+    <button onclick="run = false;map = init('basic', 3);display(map);">Density 33%</button>
+    <button onclick="run = false;map = init('basic', 4);display(map);">Density 25%</button>
+    <button onclick="run = false;map = init('basic', 5);display(map);">Density 20%</button>
+    <button onclick="run = false;map = init('basic', 10);display(map);">Density 10%</button><br><br>
+
+    <button onclick="run = false;map = init('gliders', 5);display(map);">Gliders</button>
+    </center>
+
+    <script>
+      const canvas = document.querySelector('canvas');
+      const ctx = canvas.getContext('2d');
+
+      const res = 10;
+      canvas.width = 640;
+      canvas.height = 640;
+
+      const COL = canvas.width / res;
+      const ROW = canvas.height / res;
+
+      run = true;
+
+      function init(type, density) { // Initialize cell map
+        if (type == 'basic') {
+          return new Array(COL).fill(null) // Create array columns
+          .map(() => new Array(ROW).fill(null) // Create array rows
+            .map(() => Math.floor(Math.random()*density))); // Fill aprx. half of the cell map with live cells and the other with dead cells
+        } else if (type == 'clear') {
+          return new Array(COL).fill(null) // Create array columns
+          .map(() => new Array(ROW).fill(null) // Create array rows
+            .map(() => Math.floor(0))); // Fill aprx. half of the cell map with live cells and the other with dead cells
+        }
+      }
+
+      function display(map) { // Display cell map
+        for (let c = 0; c < map.length; c++) {
+          for (let r = 0; r < map[c].length; r++) {
+            const pos = map[c][r];
+
+            ctx.beginPath();
+            ctx.rect(c*res, r*res, res, res);
+            if (pos == 0) {
+              ctx.fillStyle = 'darkblue';
+            } else if (pos == 1) {
+              ctx.fillStyle = 'lightblue';
+            } else {
+              ctx.fillStyle = 'darkblue';
+              map[c][r] = 0;
+            }
+            //ctx.fillStyle = pos ? 'lightblue' : 'darkblue';
+            ctx.fill();
+          }
+        }
+      }
+
+      function buffer(map) { // Create the next cell map buffer, apply rules and update
+        const buffer = map.map(arr => [...arr]);
+
+        for (let col = 0; col < map.length; col++) {
+          for (let row = 0; row < map[col].length; row++) {
+            const cell = map[col][row];
+            let count = 0;
+            for (let i = -1; i < 2; i++) {
+              for (let j = -1; j < 2; j++) {
+                if (i === 0 && j === 0) { // Don't count self as neighbor
+                  continue;
+                }
+
+                const checkX = col + i;
+                const checkY = row + j;
+                if (checkX >= 0 && checkY >= 0 && checkX < COL && checkY < ROW) { // Fix out of bounds
+                  const cur = map[col+i][row+j];
+                  count += cur;
+                }
+              }
+            }
+
+            if (cell === 1 && count < 2) { // Underpopulation (die)
+              buffer[col][row] = 0;
+            } else if (cell === 1 && count > 3) { // Overpopulation (die)
+              buffer[col][row] = 0;
+            } else if (cell === 0 && count === 3) { // Revive (come back to life)
+              buffer[col][row] = 1;
+            }
+          }
+        }
+        return buffer;
+      }
+
+      let map = init('basic', 2); // Create map in memory
+      display(map);
+
+      function update() { // Update the simulation
+        if (run) {
+          map = buffer(map);
+          display(map);
+
+          setTimeout(function() {update()}, 100);
+        }
+      }
+
+      //update();
+    </script>
+  </body>
+</html>
