@@ -1,0 +1,66 @@
+body {
+    background-color: #b7dfff;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-top: 0;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+#head {
+    background-color: #005090;
+    background-image:url('https://i.imgur.com/itV9erm.png');
+    color: white;
+    font-weight: bolder;
+    text-align: center;
+    font-size: 125%;
+    letter-spacing: 0.1em;
+    border: 5px solid #002030;
+    border-radius: 5px;
+}
+
+.row-title {
+    background-color: #6197bb;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 150%;
+    word-spacing: 0.1em;
+    letter-spacing: 0.1em;
+    border-top: 5px solid #002030;
+    border-left: 5px solid #002030;
+    border-right: 5px solid #002030;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.row-head {
+    background-color: #87AFCA;
+    color: #224985;
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: center;
+    font-size: 125%;
+    word-spacing: 0.1em;
+    letter-spacing: 0.1em;
+    border-left: 5px solid #002030;
+    border-right: 5px solid #002030;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.row-content {
+    background-color: #ADC7D8;
+    color: black;
+    text-align: center;
+    border-left: 5px solid #002030;
+    border-right: 5px solid #002030;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.row-foot {
+    border-bottom: 5px solid #002030;
+    border-left: 5px solid #002030;
+    border-right: 5px solid #002030;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
